@@ -9,6 +9,18 @@
   --color-primary-dark: #9B182E;
   --color-secondary: #1A1A1A;
   --color-accent: #8E9196;
+
+  --animate-marquee: marquee 60s linear infinite;
+  --animate-marquee2: marquee2 60s linear infinite;
+
+  @keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
+  }
+  @keyframes marquee2 {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(0%); }
+  }
 }
 
 @layer base {

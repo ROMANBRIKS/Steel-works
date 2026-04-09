@@ -18,9 +18,11 @@ import {
   Instagram,
   Facebook,
   Linkedin,
-  Clock
+  Clock,
+  Bot
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { ChatBot } from './components/ChatBot';
 
 // --- Constants & Data ---
 
@@ -147,6 +149,15 @@ const Navbar = () => {
                 {item}
               </a>
             ))}
+            <button 
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                window.dispatchEvent(new CustomEvent('open-adonai-chat'));
+              }}
+              className="flex items-center justify-center gap-2 bg-primary text-white font-bold py-4 rounded-xl shadow-lg"
+            >
+              <Bot className="w-6 h-6" /> Talk to our AI Agent
+            </button>
             <a href="#contact" className="btn-primary w-full text-center">Get a Quote</a>
           </motion.div>
         )}
@@ -157,67 +168,148 @@ const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden bg-secondary">
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0 z-0">
+    <section id="home" className="relative min-h-screen flex items-center justify-center bg-secondary overflow-hidden py-20 md:py-0">
+      {/* Dynamic Parallax Background */}
+      <motion.div 
+        initial={{ scale: 1.1 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 10, repeat: Infinity, repeatType: "reverse" }}
+        className="absolute inset-0 z-0"
+      >
         <img 
           src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=1920" 
           alt="Metal Works Background" 
-          className="w-full h-full object-cover opacity-40"
+          className="w-full h-full object-cover opacity-30"
           referrerPolicy="no-referrer"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-secondary/60 via-transparent to-secondary/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-secondary/80 via-secondary/40 to-secondary" />
+      </motion.div>
+
+      {/* Decorative Geometric Elements */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <motion.div 
+          animate={{ 
+            rotate: 360,
+            x: [0, 20, 0],
+            y: [0, -20, 0]
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute top-1/4 -left-20 w-96 h-96 border border-primary/10 rounded-full"
+        />
+        <motion.div 
+          animate={{ 
+            rotate: -360,
+            x: [0, -30, 0],
+            y: [0, 30, 0]
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute bottom-1/4 -right-20 w-[500px] h-[500px] border border-primary/5 rounded-full"
+        />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <span className="inline-block py-1 px-4 rounded-full bg-primary/20 text-primary border border-primary/30 text-sm font-bold tracking-wider uppercase mb-6">
-            Excellence in Delivery
-          </span>
-          <h1 className="text-5xl md:text-8xl text-white mb-6 leading-tight">
-            Engineering <span className="text-primary">Strength</span>,<br />
-            Forging <span className="text-primary italic">Future</span>.
-          </h1>
-          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Adonai Metal Works Enterprise provides premium metal engineering solutions, from industrial steel structures to bespoke residential gates.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="#services" className="btn-primary text-lg px-10 py-4 w-full sm:w-auto">
-              Explore Services <ArrowRight className="ml-2 w-5 h-5" />
-            </a>
-            <a href="#portfolio" className="btn-secondary bg-white/10 backdrop-blur-sm border border-white/20 text-lg px-10 py-4 w-full sm:w-auto hover:bg-white/20">
-              View Our Work
-            </a>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Floating Stats */}
-      <div className="absolute bottom-10 left-0 right-0 hidden lg:block">
-        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-          {[
-            { label: 'Years Experience', value: '15+' },
-            { label: 'Projects Completed', value: '500+' },
-            { label: 'Expert Engineers', value: '25+' },
-            { label: 'Happy Clients', value: '100%' },
-          ].map((stat, i) => (
-            <motion.div 
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 + i * 0.1 }}
-              className="text-center"
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-8 text-left">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
             >
-              <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
-              <div className="text-xs font-bold text-primary tracking-widest uppercase">{stat.label}</div>
+              <motion.span 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="inline-flex items-center gap-2 py-2 px-4 rounded-full bg-primary/10 text-primary border border-primary/20 text-xs font-bold tracking-[0.2em] uppercase mb-8"
+              >
+                <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+                Excellence in Metal Engineering
+              </motion.span>
+              
+              <h1 className="text-5xl md:text-7xl lg:text-8xl text-white mb-8 leading-[1.1] font-display font-bold">
+                Where <span className="text-primary relative inline-block">
+                  Precision
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    animate={{ width: '100%' }}
+                    transition={{ delay: 1, duration: 0.8 }}
+                    className="absolute -bottom-2 left-0 h-2 bg-primary/30 rounded-full"
+                  />
+                </span> Meets <br />
+                <span className="italic font-light opacity-90">Architectural</span> Art.
+              </h1>
+              
+              <p className="text-lg md:text-xl text-gray-400 max-w-2xl mb-12 leading-relaxed font-sans">
+                Adonai Metal Works Enterprise transforms raw steel into enduring legacies. From massive industrial frameworks to bespoke luxury gates, we forge the future of African engineering.
+              </p>
+              
+              <div className="flex flex-wrap items-center gap-6">
+                <motion.a 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  href="#services" 
+                  className="btn-primary text-lg px-10 py-5 flex items-center gap-3 group"
+                >
+                  Our Expertise 
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </motion.a>
+                
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <motion.button 
+                    initial={{ scale: 1 }}
+                    animate={{ scale: [1, 1.02, 1] }}
+                    transition={{ repeat: Infinity, duration: 2 }}
+                    onClick={() => window.dispatchEvent(new CustomEvent('open-adonai-chat'))}
+                    className="flex items-center justify-center gap-3 bg-white/5 backdrop-blur-md text-white font-bold text-lg px-8 py-5 rounded-full border border-white/10 hover:bg-white hover:text-secondary transition-all duration-300 shadow-2xl"
+                  >
+                    <Bot className="w-6 h-6 text-primary" /> Talk to our AI Agent
+                  </motion.button>
+                </div>
+              </div>
             </motion.div>
-          ))}
+          </div>
+
+          {/* Hero Stats Card */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9, x: 30 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="lg:col-span-4 hidden lg:block"
+          >
+            <div className="glass-card p-8 rounded-[40px] border border-white/10 relative overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <h3 className="text-white font-display font-bold text-2xl mb-8 relative z-10">Our Impact</h3>
+              <div className="space-y-8 relative z-10">
+                {[
+                  { label: 'Years of Mastery', value: '15+', icon: <Clock className="w-5 h-5" /> },
+                  { label: 'Projects Delivered', value: '500+', icon: <Construction className="w-5 h-5" /> },
+                  { label: 'Global Partners', value: '25+', icon: <Layers className="w-5 h-5" /> },
+                  { label: 'Client Satisfaction', value: '100%', icon: <ShieldCheck className="w-5 h-5" /> },
+                ].map((stat, i) => (
+                  <div key={i} className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-primary border border-white/5">
+                      {stat.icon}
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold text-white leading-none mb-1">{stat.value}</div>
+                      <div className="text-[10px] font-bold text-gray-500 tracking-[0.2em] uppercase">{stat.label}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
+
+      {/* Scroll Indicator */}
+      <motion.div 
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30"
+      >
+        <span className="text-[10px] text-white font-bold tracking-[0.3em] uppercase">Scroll</span>
+        <div className="w-px h-12 bg-gradient-to-b from-primary to-transparent" />
+      </motion.div>
     </section>
   );
 };
@@ -335,11 +427,11 @@ const Contact = () => {
 
             <div className="space-y-8">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary shrink-0">
+                <a href="https://wa.me/233502787990" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary shrink-0 hover:bg-primary hover:text-white transition-all">
                   <Phone className="w-6 h-6" />
-                </div>
+                </a>
                 <div>
-                  <h4 className="font-bold text-lg mb-1">Call Us</h4>
+                  <h4 className="font-bold text-lg mb-1">Call or WhatsApp Us</h4>
                   <p className="text-gray-400">0549025412 / 0241763340 / 0502787990</p>
                 </div>
               </div>
@@ -435,11 +527,20 @@ const Footer = () => {
               Excellence in delivery. We are leaders in metal engineering and construction, providing durable and aesthetic solutions for over 15 years.
             </p>
             <div className="flex gap-4">
-              {[Instagram, Facebook, Linkedin].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors">
-                  <Icon className="w-5 h-5" />
-                </a>
-              ))}
+              <a href="https://www.instagram.com/ashong.michael.52?igsh=MXN1ajJqbGU5aThnOA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors">
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a href="https://www.facebook.com/share/1E1fQCyj2F/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors">
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a href="https://www.tiktok.com/@adonaimetalworks?_r=1&_t=ZS-95K8PcWoGO8" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors">
+                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                  <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.98-.23-2.81.33-.85.51-1.44 1.43-1.58 2.41-.14 1.01.23 2.08.94 2.79.73.82 1.84 1.26 2.92 1.11 1.12-.05 2.11-.74 2.63-1.72.13-.33.2-.69.21-1.05.03-5.45-.01-10.88.02-16.32z"/>
+                </svg>
+              </a>
+              <a href="https://wa.me/233502787990" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors">
+                <Phone className="w-5 h-5" />
+              </a>
             </div>
           </div>
 
@@ -486,6 +587,130 @@ const Footer = () => {
         </div>
       </div>
     </footer>
+  );
+};
+
+// --- Constants & Data ---
+
+const TESTIMONIALS = [
+  // Tema, Ghana
+  { name: "Kofi Mensah", location: "Tema Community 1, Ghana", flag: "🇬🇭", text: "Adonai didn't just install a gate; they gave my family a sense of security we've never had. Their precision is a work of heart.", img: "https://images.unsplash.com/photo-1541888941259-7724ed240321?auto=format&fit=crop&q=80&w=300" }, // Metal work/Gate
+  { name: "Abena Osei", location: "Tema Community 4, Ghana", flag: "🇬🇭", text: "The underground tank they built for my business is a masterpiece of engineering. I can finally sleep knowing our resources are safe.", img: "https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&q=80&w=300" }, // Tank
+  { name: "Kwame Appiah", location: "Tema Community 9, Ghana", flag: "🇬🇭", text: "Every weld, every joint—you can see the passion. They treat your project like it's their own. Truly exceptional people.", img: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=300" }, // Steel work
+  { name: "Esi Boateng", location: "Tema Community 12, Ghana", flag: "🇬🇭", text: "Their consultancy saved us from a major design flaw. They don't just work with metal; they work with wisdom and care.", img: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=300" }, // Engineering/Industrial
+  
+  // Accra, Ghana
+  { name: "Yaw Antwi", location: "East Legon, Accra", flag: "🇬🇭", text: "The stainless steel railings in our new home are breathtaking. Adonai brings an artistic touch to heavy engineering.", img: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=300" }, // Railings
+  { name: "Ama Serwaa", location: "Cantonments, Accra", flag: "🇬🇭", text: "Professional, respectful, and incredibly skilled. They transformed our industrial site with their steel structures.", img: "https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&q=80&w=300" }, // Steel structure
+  { name: "Kojo Adu", location: "Labone, Accra", flag: "🇬🇭", text: "I've worked with many contractors, but Adonai's commitment to excellence is on another level. They are the pride of Ghana.", img: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=300" }, // Workshop
+  { name: "Efua Dankwa", location: "Spintex, Accra", flag: "🇬🇭", text: "Their maintenance team is a godsend. They fixed our factory tanks with such care and speed. Simply the best.", img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=300" }, // Factory/Tank
+
+  // Kenya
+  { name: "Samuel Kamau", location: "Nairobi, Kenya", flag: "🇰🇪", text: "Even across borders, their reputation holds true. The canopy they designed for our station is the talk of the city.", img: "https://images.unsplash.com/photo-1542362567-b051c63b9a27?auto=format&fit=crop&q=80&w=300" }, // Canopy
+  { name: "Zuri Njeri", location: "Mombasa, Kenya", flag: "🇰🇪", text: "The emotional investment they put into their work is rare. They didn't just build a structure; they built a legacy.", img: "https://images.unsplash.com/photo-1526253038957-bce54e05968e?auto=format&fit=crop&q=80&w=300" }, // Person/Business
+
+  // South Africa
+  { name: "Thabo Mbeki", location: "Johannesburg, South Africa", flag: "🇿🇦", text: "Precision engineering at its finest. Adonai's steel works are a testament to African excellence.", img: "https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&q=80&w=300" }, // Industrial
+  { name: "Lindiwe Sisulu", location: "Cape Town, South Africa", flag: "🇿🇦", text: "They understood our vision perfectly. The custom metal works they provided are both strong and beautiful.", img: "https://images.unsplash.com/photo-1558036117-15d82a90b9b1?auto=format&fit=crop&q=80&w=300" }, // Gate
+
+  // Brazil
+  { name: "Ricardo Silva", location: "São Paulo, Brazil", flag: "🇧🇷", text: "The quality of their export-grade tanks is world-class. A partnership built on trust and superior metal work.", img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=300" }, // Metal work
+  { name: "Isabella Costa", location: "Rio de Janeiro, Brazil", flag: "🇧🇷", text: "Adonai's attention to detail is unmatched. They brought our architectural metal designs to life with grace.", img: "https://images.unsplash.com/photo-1548142813-c348350df52b?auto=format&fit=crop&q=80&w=300" }, // Person
+
+  // Europe (Collaborators/Partners)
+  { name: "Hans Müller", location: "Berlin, Germany", flag: "🇩🇪", text: "Working hand-in-hand with Adonai on the underground storage project was a revelation. Their technical prowess is elite.", img: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=300" }, // Technical work
+  { name: "Jean-Pierre", location: "Lyon, France", flag: "🇫🇷", text: "The way they piece metal together is like poetry. Our collaboration on the tank designs was seamless and inspiring.", img: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=300" }, // Tank design
+  { name: "Marco Rossi", location: "Milan, Italy", flag: "🇮🇹", text: "Adonai's engineers are true masters. Their performance on the industrial tank project exceeded all European standards.", img: "https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&q=80&w=300" }, // Engineering
+  { name: "Elena Schmidt", location: "Vienna, Austria", flag: "🇦🇹", text: "Their dedication to structural integrity is profound. A truly reliable partner in complex metal engineering.", img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=300" }, // Person
+  { name: "David Wilson", location: "London, UK", flag: "🇬🇧", text: "The underground tanks they delivered are flawless. Their team works with a level of respect and skill that is rare today.", img: "https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&q=80&w=300" }, // Tank
+
+  // More Global
+  { name: "Fatima Zahra", location: "Casablanca, Morocco", flag: "🇲🇦", text: "They turned our industrial challenges into elegant solutions. Their work is as durable as it is impressive.", img: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=300" }, // Industrial
+  { name: "Chen Wei", location: "Shanghai, China", flag: "🇨🇳", text: "Superior engineering and a heart for the customer. Adonai is a global leader in metal works.", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300" }, // Person
+  { name: "Sofia Hernandez", location: "Mexico City, Mexico", flag: "🇲🇽", text: "The emotional appeal of their designs is what sets them apart. They build with love and precision.", img: "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=300" }, // Person
+  { name: "Ahmed Hassan", location: "Cairo, Egypt", flag: "🇪🇬", text: "A truly professional team. Their work on our storage tanks was perfect in every sense of the word.", img: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=300" }, // Tank work
+  { name: "Yuki Tanaka", location: "Tokyo, Japan", flag: "🇯🇵", text: "The precision of their welds is incredible. They bring a level of discipline to metal work that is world-class.", img: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=300" }, // Metal work/Welding
+  { name: "Amara Diallo", location: "Dakar, Senegal", flag: "🇸🇳", text: "Adonai is more than a company; they are partners in progress. Their metal works are the foundation of our growth.", img: "https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&q=80&w=300" }, // Steel structure
+];
+
+// --- Components ---
+
+const Testimonials = () => {
+  return (
+    <section id="testimonials" className="py-24 bg-gray-50 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 mb-16">
+        <div className="text-center">
+          <span className="text-primary font-bold tracking-widest uppercase text-sm mb-4 block">Global Trust</span>
+          <h2 className="text-4xl md:text-5xl mb-4">Voices of Satisfaction</h2>
+          <div className="w-20 h-1.5 bg-primary mx-auto rounded-full mb-6" />
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            From the heart of Ghana to the industrial hubs of Europe and Brazil, our commitment to excellence resonates across the globe.
+          </p>
+        </div>
+      </div>
+
+      {/* Marquee Effect for Testimonials */}
+      <div className="relative flex overflow-x-hidden">
+        <div className="animate-marquee whitespace-nowrap flex gap-6 py-4">
+          {TESTIMONIALS.map((t, i) => (
+            <div key={i} className="inline-block w-[350px] bg-white p-8 rounded-3xl shadow-sm border border-gray-100 whitespace-normal shrink-0">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="relative">
+                  <img src={t.img} alt={t.name} className="w-14 h-14 rounded-full object-cover border-2 border-primary/20" referrerPolicy="no-referrer" />
+                  <span className="absolute -bottom-1 -right-1 text-xl bg-white rounded-full shadow-sm w-7 h-7 flex items-center justify-center border border-gray-100">
+                    {t.flag}
+                  </span>
+                </div>
+                <div>
+                  <h4 className="font-bold text-secondary">{t.name}</h4>
+                  <p className="text-xs text-primary font-medium">{t.location}</p>
+                </div>
+              </div>
+              <p className="text-gray-600 italic leading-relaxed">
+                "{t.text}"
+              </p>
+              <div className="mt-6 flex text-primary">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Duplicate for seamless loop */}
+        <div className="absolute top-0 animate-marquee2 whitespace-nowrap flex gap-6 py-4">
+          {TESTIMONIALS.map((t, i) => (
+            <div key={`dup-${i}`} className="inline-block w-[350px] bg-white p-8 rounded-3xl shadow-sm border border-gray-100 whitespace-normal shrink-0">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="relative">
+                  <img src={t.img} alt={t.name} className="w-14 h-14 rounded-full object-cover border-2 border-primary/20" referrerPolicy="no-referrer" />
+                  <span className="absolute -bottom-1 -right-1 text-xl bg-white rounded-full shadow-sm w-7 h-7 flex items-center justify-center border border-gray-100">
+                    {t.flag}
+                  </span>
+                </div>
+                <div>
+                  <h4 className="font-bold text-secondary">{t.name}</h4>
+                  <p className="text-xs text-primary font-medium">{t.location}</p>
+                </div>
+              </div>
+              <p className="text-gray-600 italic leading-relaxed">
+                "{t.text}"
+              </p>
+              <div className="mt-6 flex text-primary">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 };
 
@@ -550,8 +775,24 @@ export default function App() {
         </div>
       </section>
 
+      <Testimonials />
       <Contact />
       <Footer />
+      
+      {/* Floating WhatsApp Button */}
+      <a 
+        href="https://wa.me/233502787990" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="fixed bottom-24 right-6 z-40 w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300 md:bottom-8"
+        title="Chat on WhatsApp"
+      >
+        <svg className="w-8 h-8 fill-current" viewBox="0 0 24 24">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+      </a>
+
+      <ChatBot />
     </div>
   );
 }
