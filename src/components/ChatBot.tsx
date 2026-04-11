@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, User, Bot, Loader2, Minimize2, Maximize2 } from 'lucide-react';
+import { MessageCircle, X, Send, User, Bot, Loader2, Minimize2, Maximize2, Mic, MicOff } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { chatWithAdonai } from '../services/geminiService';
 
@@ -16,7 +16,55 @@ export const ChatBot: React.FC = () => {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [permissionError, setPermissionError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const recognitionRef = useRef<any>(null);
+
+  // Initialize Speech Recognition
+  useEffect(() => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = false;
+      recognitionRef.current.interimResults = false;
+      recognitionRef.current.lang = 'en-US';
+
+      recognitionRef.current.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setInput(transcript);
+        setIsListening(false);
+        // We'll let the user click send themselves as requested
+      };
+
+      recognitionRef.current.onerror = (event: any) => {
+        console.error('Speech recognition error:', event.error);
+        if (event.error === 'not-allowed') {
+          setPermissionError('Microphone access denied. Please allow microphone permissions or open the app in a new tab.');
+          setTimeout(() => setPermissionError(null), 5000);
+        }
+        setIsListening(false);
+      };
+
+      recognitionRef.current.onend = () => {
+        setIsListening(false);
+      };
+    }
+  }, []);
+
+  const toggleListening = () => {
+    if (isListening) {
+      recognitionRef.current?.stop();
+      setIsListening(false);
+    } else {
+      try {
+        recognitionRef.current?.start();
+        setIsListening(true);
+      } catch (error) {
+        console.error('Failed to start recognition:', error);
+      }
+    }
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -26,11 +74,12 @@ export const ChatBot: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
-  const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
+  const handleSend = async (overrideInput?: string) => {
+    const messageToSend = overrideInput || input;
+    if (!messageToSend.trim() || isLoading) return;
 
-    const userMessage = input.trim();
-    setInput('');
+    const userMessage = messageToSend.trim();
+    setInput(''); // Always clear input on send
     setMessages(prev => [...prev, { role: 'user', text: userMessage }]);
     setIsLoading(true);
 
@@ -108,6 +157,15 @@ export const ChatBot: React.FC = () => {
               <>
                 {/* Messages */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-[300px] max-h-[400px] bg-gray-50/50">
+                  {permissionError && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="bg-red-50 border border-red-100 text-red-600 p-3 rounded-xl text-xs font-medium text-center"
+                    >
+                      {permissionError}
+                    </motion.div>
+                  )}
                   {messages.map((msg, i) => (
                     <motion.div
                       key={i}
@@ -135,21 +193,33 @@ export const ChatBot: React.FC = () => {
                   <div ref={messagesEndRef} />
                 </div>
 
-                {/* Input */}
+                {/* Input Area */}
                 <div className="p-4 bg-white border-t border-gray-100">
-                  <div className="flex gap-2">
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={toggleListening}
+                      className={`flex-shrink-0 p-3 rounded-xl transition-all ${
+                        isListening 
+                          ? 'bg-red-500 text-white animate-pulse' 
+                          : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                      }`}
+                      title={isListening ? "Stop Listening" : "Start Voice Input"}
+                    >
+                      {isListening ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+                    </button>
                     <input
                       type="text"
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                      placeholder="How can we help you today, please?"
-                      className="flex-1 bg-gray-100 border-none rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 transition-all"
+                      placeholder={isListening ? "Listening..." : "Type your message..."}
+                      className="flex-1 min-w-0 bg-gray-100 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 transition-all"
                     />
                     <button
-                      onClick={handleSend}
+                      onClick={() => handleSend()}
                       disabled={isLoading || !input.trim()}
-                      className="bg-primary text-white p-2 rounded-xl hover:bg-primary-dark transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-primary/20"
+                      className="flex-shrink-0 bg-primary text-white p-3 rounded-xl hover:bg-primary-dark transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-primary/20 flex items-center justify-center"
+                      title="Send Message"
                     >
                       <Send className="w-5 h-5" />
                     </button>

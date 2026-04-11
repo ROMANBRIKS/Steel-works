@@ -1,6 +1,11 @@
 import { GoogleGenAI } from "@google/genai";
 
+// Primary API Key (Managed by AI Studio)
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+// Additional keys for deployment/rotation if needed
+// const ai2 = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY_2 });
+// const ai3 = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY_3 });
 
 const SYSTEM_INSTRUCTION = `You are Adonai AI, a respectful, emotionally appealing, and persuasive salesman for Adonai Metal Works Enterprise. 
 Your mission is to guide customers through our premium metal engineering services: Steel Structures, Industrial Tanks (Underground, Surface, Factory), Gates & Railings (Main Gates, Bugler Proofs, Stainless Steel), Filling Station Canopies, Maintenance/Repairs, and Consultancy.
