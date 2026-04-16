@@ -19,10 +19,16 @@ import {
   Facebook,
   Linkedin,
   Clock,
-  Bot
+  Bot,
+  Settings
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChatBot } from './components/ChatBot';
+import { CinematicBanner } from './components/CinematicBanner';
+import { AdminDashboard } from './components/AdminDashboard';
+import { db, handleFirestoreError, OperationType } from './firebase';
+import { collection, query, where, orderBy, onSnapshot } from 'firebase/firestore';
+import { LOCAL_IMAGES, getLocalImagePath } from './constants/localImages';
 
 // --- Constants & Data ---
 
@@ -35,39 +41,39 @@ const SERVICES = [
     image: 'https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&q=80&w=800'
   },
   {
-    id: 'tanks',
-    title: 'Industrial Tanks',
-    description: 'Underground, surface, and factory tanks built to highest safety standards.',
+    id: 'underground-tanks',
+    title: 'Underground Tanks',
+    description: 'High-capacity storage solutions engineered for safety and environmental protection.',
     icon: <Droplets className="w-8 h-8" />,
     image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=800'
   },
   {
-    id: 'gates-railings',
-    title: 'Gates & Railings',
-    description: 'Modern main gates, bugler proofs, and stainless steel barristers.',
-    icon: <ShieldCheck className="w-8 h-8" />,
-    image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=800'
+    id: 'surface-tanks',
+    title: 'Surface Tanks',
+    description: 'Durable surface storage tanks for farms, factories, and industrial sites.',
+    icon: <Layers className="w-8 h-8" />,
+    image: 'https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&q=80&w=800'
   },
   {
-    id: 'canopies',
-    title: 'Filling Station Canopies',
+    id: 'filling-station-canopies',
+    title: 'Fill Station Canopies',
     description: 'Professional canopy construction and maintenance for fuel stations.',
-    icon: <Layers className="w-8 h-8" />,
+    icon: <Construction className="w-8 h-8" />,
     image: 'https://images.unsplash.com/photo-1542362567-b051c63b9a27?auto=format&fit=crop&q=80&w=800'
   },
   {
-    id: 'maintenance',
-    title: 'Repairs & Maintenance',
-    description: 'Comprehensive renovation and repair services for all metal works.',
-    icon: <Wrench className="w-8 h-8" />,
-    image: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=800'
+    id: 'billboard-frames',
+    title: 'Billboard Frames',
+    description: 'Robust steel frameworks for large-scale outdoor advertising.',
+    icon: <Layers className="w-8 h-8" />,
+    image: 'https://images.unsplash.com/photo-1541746972996-4e0b0f43e02a?auto=format&fit=crop&q=80&w=800'
   },
   {
-    id: 'consultancy',
-    title: 'Expert Consultancy',
-    description: 'Professional advice and planning for your metal engineering projects.',
-    icon: <Construction className="w-8 h-8" />,
-    image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=800'
+    id: 'bugler-proof',
+    title: 'Bugler Proof',
+    description: 'High-security metal reinforcements for windows, doors, and perimeters.',
+    icon: <ShieldCheck className="w-8 h-8" />,
+    image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=800'
   }
 ];
 
@@ -93,20 +99,25 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass-nav py-3' : 'bg-transparent py-6'}`}>
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-10 h-10 bg-primary flex items-center justify-center rounded-lg shadow-lg">
-            <span className="text-white font-bold text-xl">AM</span>
-          </div>
-          <div className="flex flex-col">
-            <span className={`font-display font-bold text-xl leading-none ${isScrolled ? 'text-secondary' : 'text-white'}`}>ADONAI</span>
-            <span className={`text-[10px] font-medium tracking-[0.2em] uppercase ${isScrolled ? 'text-primary' : 'text-white/80'}`}>Metal Works</span>
-          </div>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass-nav py-2' : 'bg-transparent py-2'}`}>
+      <div className="w-full px-4 md:px-8 flex items-center justify-between">
+        {/* Logo at extreme left corner */}
+        <div className="flex items-center">
+          {LOCAL_IMAGES.logo.length > 0 ? (
+            <img 
+              src={getLocalImagePath('logo', LOCAL_IMAGES.logo[0])} 
+              alt="Adonai Logo" 
+              className="w-24 h-24 md:w-32 md:h-32 object-contain"
+            />
+          ) : (
+            <div className="w-16 h-16 bg-primary flex items-center justify-center rounded-xl">
+              <span className="text-white font-bold text-2xl">AM</span>
+            </div>
+          )}
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center justify-end gap-8">
           {['Home', 'Services', 'Portfolio', 'About', 'Contact'].map((item) => (
             <a 
               key={item} 
@@ -116,7 +127,7 @@ const Navbar = () => {
               {item}
             </a>
           ))}
-          <a href="#contact" className="btn-primary py-2 px-5 text-sm">
+          <a href="#contact" className="bg-primary text-white font-bold py-2.5 px-6 rounded-full hover:bg-primary-dark transition-all shadow-lg shadow-primary/20 text-sm">
             Get a Quote
           </a>
         </div>
@@ -163,154 +174,6 @@ const Navbar = () => {
         )}
       </AnimatePresence>
     </nav>
-  );
-};
-
-const Hero = () => {
-  return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center bg-secondary overflow-hidden py-20 md:py-0">
-      {/* Dynamic Parallax Background */}
-      <motion.div 
-        initial={{ scale: 1.1 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 10, repeat: Infinity, repeatType: "reverse" }}
-        className="absolute inset-0 z-0"
-      >
-        <img 
-          src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=1920" 
-          alt="Metal Works Background" 
-          className="w-full h-full object-cover opacity-30"
-          referrerPolicy="no-referrer"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-secondary/80 via-secondary/40 to-secondary" />
-      </motion.div>
-
-      {/* Decorative Geometric Elements */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <motion.div 
-          animate={{ 
-            rotate: 360,
-            x: [0, 20, 0],
-            y: [0, -20, 0]
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute top-1/4 -left-20 w-96 h-96 border border-primary/10 rounded-full"
-        />
-        <motion.div 
-          animate={{ 
-            rotate: -360,
-            x: [0, -30, 0],
-            y: [0, 30, 0]
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute bottom-1/4 -right-20 w-[500px] h-[500px] border border-primary/5 rounded-full"
-        />
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-8 text-left">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <motion.span 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="inline-flex items-center gap-2 py-2 px-4 rounded-full bg-primary/10 text-primary border border-primary/20 text-xs font-bold tracking-[0.2em] uppercase mb-8"
-              >
-                <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                Excellence in Metal Engineering
-              </motion.span>
-              
-              <h1 className="text-5xl md:text-7xl lg:text-8xl text-white mb-8 leading-[1.1] font-display font-bold">
-                Where <span className="text-primary relative inline-block">
-                  Precision
-                  <motion.div 
-                    initial={{ width: 0 }}
-                    animate={{ width: '100%' }}
-                    transition={{ delay: 1, duration: 0.8 }}
-                    className="absolute -bottom-2 left-0 h-2 bg-primary/30 rounded-full"
-                  />
-                </span> Meets <br />
-                <span className="italic font-light opacity-90">Architectural</span> Art.
-              </h1>
-              
-              <p className="text-lg md:text-xl text-gray-400 max-w-2xl mb-12 leading-relaxed font-sans">
-                Adonai Metal Works Enterprise transforms raw steel into enduring legacies. From massive industrial frameworks to bespoke luxury gates, we forge the future of African engineering.
-              </p>
-              
-              <div className="flex flex-wrap items-center gap-6">
-                <motion.a 
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  href="#services" 
-                  className="btn-primary text-lg px-10 py-5 flex items-center gap-3 group"
-                >
-                  Our Expertise 
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </motion.a>
-                
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <motion.button 
-                    initial={{ scale: 1 }}
-                    animate={{ scale: [1, 1.02, 1] }}
-                    transition={{ repeat: Infinity, duration: 2 }}
-                    onClick={() => window.dispatchEvent(new CustomEvent('open-adonai-chat'))}
-                    className="flex items-center justify-center gap-3 bg-white/5 backdrop-blur-md text-white font-bold text-lg px-8 py-5 rounded-full border border-white/10 hover:bg-white hover:text-secondary transition-all duration-300 shadow-2xl"
-                  >
-                    <Bot className="w-6 h-6 text-primary" /> Talk to our AI Agent
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Hero Stats Card */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9, x: 30 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="lg:col-span-4 hidden lg:block"
-          >
-            <div className="glass-card p-8 rounded-[40px] border border-white/10 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <h3 className="text-white font-display font-bold text-2xl mb-8 relative z-10">Our Impact</h3>
-              <div className="space-y-8 relative z-10">
-                {[
-                  { label: 'Years of Mastery', value: '15+', icon: <Clock className="w-5 h-5" /> },
-                  { label: 'Projects Delivered', value: '500+', icon: <Construction className="w-5 h-5" /> },
-                  { label: 'Global Partners', value: '25+', icon: <Layers className="w-5 h-5" /> },
-                  { label: 'Client Satisfaction', value: '100%', icon: <ShieldCheck className="w-5 h-5" /> },
-                ].map((stat, i) => (
-                  <div key={i} className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-primary border border-white/5">
-                      {stat.icon}
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-white leading-none mb-1">{stat.value}</div>
-                      <div className="text-[10px] font-bold text-gray-500 tracking-[0.2em] uppercase">{stat.label}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <motion.div 
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30"
-      >
-        <span className="text-[10px] text-white font-bold tracking-[0.3em] uppercase">Scroll</span>
-        <div className="w-px h-12 bg-gradient-to-b from-primary to-transparent" />
-      </motion.div>
-    </section>
   );
 };
 
@@ -508,16 +371,24 @@ const Contact = () => {
   );
 };
 
-const Footer = () => {
+const Footer = ({ onAdminClick }: { onAdminClick: () => void }) => {
   return (
     <footer className="bg-black text-white py-16 border-t border-white/5">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="col-span-1 lg:col-span-1">
             <div className="flex items-center gap-2 mb-6">
-              <div className="w-10 h-10 bg-primary flex items-center justify-center rounded-lg">
-                <span className="text-white font-bold text-xl">AM</span>
-              </div>
+              {LOCAL_IMAGES.logo.length > 0 ? (
+                <img 
+                  src={getLocalImagePath('logo', LOCAL_IMAGES.logo[0])} 
+                  alt="Adonai Logo" 
+                  className="w-10 h-10 object-contain"
+                />
+              ) : (
+                <div className="w-10 h-10 bg-primary flex items-center justify-center rounded-lg">
+                  <span className="text-white font-bold text-xl">AM</span>
+                </div>
+              )}
               <div className="flex flex-col">
                 <span className="font-display font-bold text-xl leading-none">ADONAI</span>
                 <span className="text-[10px] font-medium tracking-[0.2em] uppercase text-primary">Metal Works</span>
@@ -552,6 +423,11 @@ const Footer = () => {
                   <a href={`#${item.toLowerCase()}`} className="hover:text-primary transition-colors">{item}</a>
                 </li>
               ))}
+              <li>
+                <button onClick={onAdminClick} className="hover:text-primary transition-colors flex items-center gap-2">
+                  <Settings className="w-4 h-4" /> Admin Login
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -715,12 +591,128 @@ const Testimonials = () => {
 };
 
 export default function App() {
+  const [showAdmin, setShowAdmin] = useState(false);
+  const [dynamicPortfolio, setDynamicPortfolio] = useState<any[]>([]);
+
+  useEffect(() => {
+    const q = query(collection(db, 'images'), orderBy('createdAt', 'desc'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const cloudImgs = snapshot.docs.map(doc => ({ 
+        id: doc.id, 
+        title: doc.data().title || 'Project', 
+        category: doc.data().category, 
+        img: doc.data().url 
+      }));
+
+      // Combine with local images from all portfolio categories
+      const localPortfolio: any[] = [];
+      (['gates', 'steel-structures', 'underground-tanks', 'surface-tanks', 'filling-station-canopies', 'billboard-frames', 'bugler-proof'] as const).forEach(cat => {
+        LOCAL_IMAGES[cat].forEach((filename, idx) => {
+          localPortfolio.push({
+            id: `local-${cat}-${idx}`,
+            title: `${cat.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')} Project`,
+            category: cat,
+            img: getLocalImagePath(cat, filename)
+          });
+        });
+      });
+
+      const combined = [...localPortfolio, ...cloudImgs];
+      // Filter out banner images for the portfolio
+      setDynamicPortfolio(combined.filter(img => img.category !== 'banner'));
+    }, (error) => {
+      handleFirestoreError(error, OperationType.LIST, 'images');
+      
+      // Fallback to local images
+      const localPortfolio: any[] = [];
+      (['gates', 'steel-structures', 'underground-tanks', 'surface-tanks', 'filling-station-canopies', 'billboard-frames', 'bugler-proof'] as const).forEach(cat => {
+        LOCAL_IMAGES[cat].forEach((filename, idx) => {
+          localPortfolio.push({
+            id: `local-${cat}-${idx}`,
+            title: `${cat.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')} Project`,
+            category: cat,
+            img: getLocalImagePath(cat, filename)
+          });
+        });
+      });
+      setDynamicPortfolio(localPortfolio);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const displayPortfolio = dynamicPortfolio.length > 0 ? dynamicPortfolio : PORTFOLIO;
+
+  if (showAdmin) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <div className="bg-white border-b border-gray-200 py-4 px-6 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-primary flex items-center justify-center rounded-lg">
+              <span className="text-white font-bold text-sm">AM</span>
+            </div>
+            <span className="font-bold text-secondary">Adonai Admin</span>
+          </div>
+          <button 
+            onClick={() => setShowAdmin(false)}
+            className="text-sm font-semibold text-blue-600 hover:text-blue-800"
+          >
+            Back to Website
+          </button>
+        </div>
+        <AdminDashboard />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen">
       <Navbar />
-      <Hero />
+      <CinematicBanner />
       <Services />
-      <Portfolio />
+      
+      {/* Portfolio Section */}
+      <section id="portfolio" className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+            <div>
+              <h2 className="text-4xl md:text-5xl mb-4">Masterpieces in Metal</h2>
+              <div className="w-20 h-1.5 bg-primary rounded-full" />
+            </div>
+            <p className="text-gray-600 max-w-md">
+              A showcase of our dedication to precision, durability, and aesthetic excellence in every project we undertake.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {displayPortfolio.map((item, i) => (
+              <motion.div 
+                key={item.id || i}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="group relative h-[400px] rounded-3xl overflow-hidden cursor-pointer"
+              >
+                <img 
+                  src={item.img} 
+                  alt={item.title} 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+                <div className="absolute bottom-0 left-0 right-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                  <span className="inline-block py-1 px-3 rounded-md bg-primary text-white text-[10px] font-bold uppercase tracking-widest mb-3">
+                    {item.category}
+                  </span>
+                  <h4 className="text-2xl text-white font-bold">{item.title}</h4>
+                  <div className="h-0.5 w-0 bg-white mt-4 group-hover:w-full transition-all duration-500" />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
       
       {/* About Section / Why Choose Us */}
       <section id="about" className="py-24 bg-white overflow-hidden">
@@ -777,14 +769,14 @@ export default function App() {
 
       <Testimonials />
       <Contact />
-      <Footer />
+      <Footer onAdminClick={() => setShowAdmin(true)} />
       
       {/* Floating WhatsApp Button */}
       <a 
         href="https://wa.me/233502787990" 
         target="_blank" 
         rel="noopener noreferrer"
-        className="fixed bottom-24 right-6 z-40 w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300 md:bottom-8"
+        className="fixed bottom-24 right-6 z-40 w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300 md:bottom-28"
         title="Chat on WhatsApp"
       >
         <svg className="w-8 h-8 fill-current" viewBox="0 0 24 24">
