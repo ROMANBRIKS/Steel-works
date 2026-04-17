@@ -53,8 +53,9 @@ export interface FirestoreErrorInfo {
 }
 
 export function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null) {
+  const message = error instanceof Error ? error.message : String(error);
   const errInfo: FirestoreErrorInfo = {
-    error: error instanceof Error ? error.message : String(error),
+    error: message,
     authInfo: {
       userId: auth.currentUser?.uid,
       email: auth.currentUser?.email,
@@ -71,18 +72,24 @@ export function handleFirestoreError(error: unknown, operationType: OperationTyp
     operationType,
     path
   }
+  
+  const isConnectivityError = message.includes('offline') || message.includes('reach Cloud Firestore backend');
+  
+  if (isConnectivityError) {
+    console.warn('Firestore connectivity issue (falling back to local data):', message);
+    return; // Do not throw, allowing components to use local fallbacks
+  }
+
   console.error('Firestore Error: ', JSON.stringify(errInfo));
   throw new Error(JSON.stringify(errInfo));
 }
 
-// Test Connection
+// Test Connection silently
 async function testConnection() {
   try {
     await getDocFromServer(doc(db, 'test', 'connection'));
   } catch (error) {
-    if(error instanceof Error && error.message.includes('the client is offline')) {
-      console.error("Please check your Firebase configuration. The client is offline.");
-    }
+    // Silence connection errors to prevent console spam as fallbacks are in place
   }
 }
 testConnection();

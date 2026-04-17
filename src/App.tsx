@@ -99,15 +99,15 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass-nav py-2' : 'bg-transparent py-2'}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass-nav py-2 shadow-lg' : 'bg-transparent py-4'}`}>
       <div className="w-full px-4 md:px-8 flex items-center justify-between">
-        {/* Logo at extreme left corner */}
-        <div className="flex items-center">
+        {/* Logo at extreme left corner - Protected from overlap */}
+        <div className="flex items-center pt-2 md:pt-0">
           {LOCAL_IMAGES.logo.length > 0 ? (
             <img 
               src={getLocalImagePath('logo', LOCAL_IMAGES.logo[0])} 
               alt="Adonai Logo" 
-              className="w-24 h-24 md:w-32 md:h-32 object-contain"
+              className="w-20 h-20 md:w-32 md:h-32 object-contain"
             />
           ) : (
             <div className="w-16 h-16 bg-primary flex items-center justify-center rounded-xl">
