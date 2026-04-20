@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Inter", sans-serif;
+  --font-serif: "Playfair Display", serif;
+  
+  --color-primary: #C8102E;
+  --color-secondary: #0A0A0A;
+}
+
+@layer base {
+  body {
+    @apply bg-white text-secondary font-sans antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-black tracking-tighter;
+  }
+}
+
+.glass-nav {
+  @apply bg-white/90 backdrop-blur-lg border-b border-gray-100 shadow-sm;
+}
+
+.glass-card {
+  @apply bg-black/30 backdrop-blur-xl border border-white/10 rounded-[2rem];
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-primary text-white font-bold transition-all duration-300 hover:brightness-90 hover:shadow-[0_8px_30px_rgb(196,30,58,0.4)] active:scale-95;
+}
+
+.btn-outline {
+  @apply inline-flex items-center justify-center px-8 py-3.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-md text-white font-bold transition-all duration-300 hover:bg-white/10 active:scale-95;
+}
+
+.service-card {
+  @apply relative overflow-hidden rounded-[2.5rem] bg-white border border-gray-100 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] transition-all duration-500 hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] hover:-translate-y-2;
+}
+
+.badge-red {
+  @apply inline-flex items-center space-x-3 px-6 py-2.5 rounded-full bg-black/40 backdrop-blur-md border border-primary/30 text-primary text-[10px] font-black uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(196,30,58,0.2)];
+}
+
+.heading-precision {
+  @apply relative inline-block text-primary whitespace-nowrap;
+}
+
+.heading-precision::after {
+  content: '';
+  @apply absolute -bottom-1 left-0 w-full h-[0.15em] bg-primary;
+}
+
+.impact-item {
+  @apply flex items-center space-x-4 py-4 border-b border-white/5 last:border-0;
+}
+
+.icon-circle {
+  @apply w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white bg-white/5;
+}
