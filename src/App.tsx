@@ -17,6 +17,7 @@ import {
   ChevronRight,
   ChevronLeft,
   ArrowRight,
+  Zap,
   Quote,
   CheckCircle2,
   Globe,
@@ -71,6 +72,18 @@ interface ProjectImage {
   url: string;
   category: string;
   title?: string;
+}
+
+interface Article {
+  id: number;
+  title: string;
+  excerpt: string;
+  content: string;
+  category: string;
+  date: string;
+  image: string;
+  readTime: string;
+  tags: string[];
 }
 
 const Logo = ({ className = "w-[150px]", variant = "default" }: { className?: string, variant?: "default" | "footer" | "mobile" }) => {
@@ -298,6 +311,252 @@ const portfolioItems: Service[] = [
   }
 ];
 
+const articles: Article[] = [
+  {
+    id: 1,
+    title: "The Soul of the Arc: A Master's Guide to MIG vs TIG Welding",
+    excerpt: "Beyond the sparks lies a world of precision. Discover the emotional and technical journey of choosing the perfect weld for architectural masterpieces.",
+    content: `
+### The Soul of the Arc: A Master's Guide
+
+When you stand before a raw sheet of steel, you aren't just looking at metal. You are looking at a canvas. At Adonai Metal Works, we believe that the weld is the heartbeat of the structure. Choosing between MIG and TIG isn't just about speed—it's about the soul of the final piece.
+
+#### The Raw Power of MIG (Metal Inert Gas)
+MIG welding is the workhorse of the industrial world. It’s visceral, powerful, and undeniably efficient.
+- **The Feeling:** It’s like a controlled storm. The wire feeds continuously, and the sound is a steady roar of creation.
+- **When to use it:** When we are building massive fuel tanks or industrial canopies, MIG provides the deep penetration and structural strength that defines "Adonai Integrity."
+- **Profitability:** For industrial clients, MIG means faster delivery without sacrificing the bond.
+
+#### The Surgical Precision of TIG (Tungsten Inert Gas)
+TIG is the "Architect's Choice." It requires a level of focus that borders on meditation.
+- **The Feeling:** It’s silent, intense, and incredibly clean. You control the heat with your foot and the filler with your hand. It’s a dance of fire and metal.
+- **When to use it:** For stainless steel railings, luxury gates, and any surface where the weld itself is part of the art.
+- **The Outcome:** A weld that looks like a stack of shimmering dimes—flawless and eternal.
+
+#### Mastery and the Human Connection
+Every weld carries the signature of the artisan. Our engineers don't just "join metal"; they ensure that the gate protecting your home or the tank powering your station is a testament to human skill. Precision is our promise; integrity is our legacy.
+`,
+    category: "Welding Mastery",
+    date: "Oct 24, 2024",
+    image: "https://images.unsplash.com/photo-1544377193-33dcf4d68fb5?auto=format&fit=crop&q=80&w=800",
+    readTime: "7 min read",
+    tags: ["MIG", "TIG", "Artistry", "Precision"]
+  },
+  {
+    id: 2,
+    title: "Starting Your Forge: How to Become a Precision Engineering Professional",
+    excerpt: "The path from an apprentice to a master fabricator is paved with discipline. Learn the steps to master the art of metal works.",
+    content: `
+### Starting Your Forge: The Path to Mastery
+
+The roar of the workshop is a siren call to many, but only a few have the discipline to become masters. Engineering excellence isn't born; it's forged through thousands of hours of practice.
+
+#### Phase 1: Understanding the Elements
+Before you pick up a torch, you must understand the metal. Steel, aluminum, and stainless steel all behave differently under heat.
+- **Metal Literacy:** Learn the grades (A36, 304, 316). Documentation is key.
+- **The Physics of Heat:** Understand how metal moves. If you don't account for expansion, your gate will never hang straight.
+
+#### Phase 2: The Apprentice’s Discipline
+Start with the basics of grinding and cutting. A master welder is first a master fabricator.
+- **Safety First:** PPE (Personal Protective Equipment) is your uniform of respect. If you don't respect the danger, you won't respect the craft.
+- **Consistency:** Practice running beads on scrap metal until they are identical. Muscle memory is everything.
+
+#### Phase 3: Specialization and Architectural Art
+At Adonai Metal Works, we encourage our engineers to find their niche.
+- **Industrial Specialization:** Focus on heavy-duty tanks and structural integrity.
+- **Architectural Art:** Focus on the aesthetics of modern gates and stainless railings.
+
+#### The Future of the Craft
+As technology like CNC and AI enters the workshop, the modern fabricator must be part artist, part programmer, and 100% engineer. The world will always need builders who care about the details.
+`,
+    category: "Career",
+    date: "Oct 28, 2024",
+    image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=800",
+    readTime: "9 min read",
+    tags: ["Training", "Fabrication", "Apprenticeship", "Skills"]
+  },
+  {
+    id: 3,
+    title: "The Industrial Ghost: Why Plasma Cutting is the Future of Fabrication",
+    excerpt: "Harnessing the fourth state of matter to slice through steel with the grace of a ghost. Exploring the profitability and precision of plasma tech.",
+    content: `
+### The Industrial Ghost: The Power of Plasma
+
+Plasma cutting feels like magic. High-velocity ionized gas, moving at supersonic speeds, slicing through solid inches of steel like it’s mere paper. It is the "Industrial Ghost"—it passes through metal and leaves only perfection in its wake.
+
+#### Why Plasma? The Technical Edge
+- **The Heat:** At 20,000°C, plasma is hotter than the surface of the sun.
+- **The Speed:** It cuts 5x faster than mechanical saws, drastically increasing profitability for large-scale industrial projects.
+- **The Cleanliness:** The heat-affected zone (HAZ) is minimal, meaning the metal remains strong and un-warped.
+
+#### Profitability for Business Owners
+If you are building a fuel station or a factory, every day of delay is money lost.
+- **Efficiency:** Plasma allows us to cut complex sheets for fuel tanks in hours, not days.
+- **Waste Reduction:** CNC-guided plasma maximizes every square inch of raw material, saving thousands in steel costs.
+
+#### Safety and the High-Voltage Dance
+Plasma cutting involves high voltage and intense UV light. Our workshop in Ghana is equipped with specialized ventilation to handle the fine metal dust. To master the plasma is to master the energy of the universe itself.
+
+**Everything you need to know:** Plasma is best for conductive metals (Steel, Stainless, Aluminum). For the non-conductive, we look toward different CNC solutions, but for the backbone of industry, Plasma is king.
+`,
+    category: "Technology",
+    date: "Nov 05, 2024",
+    image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=800",
+    readTime: "10 min read",
+    tags: ["Plasma Cutting", "CNC", "Efficiency", "Profitability"]
+  },
+  {
+    id: 4,
+    title: "The Integrity Shield: A Deep Dive into Workshop Safety Protocols",
+    excerpt: "Safety is the silent partner in every successful project. Explore the protocols that protect our people and your investments.",
+    content: `
+### The Integrity Shield: Safety as a Discipline
+
+At Adonai Metal Works, we have a saying: "An injury is a failure of engineering." Safety isn't an afterthought; it’s the framework that allows creativity and precision to flourish.
+
+#### The 10 Commandments of the Adonai Workshop:
+1. **The Vision Guard:** Never strike an arc without a certified auto-darkening helmet. Protecting your sight is protecting your future.
+2. **The Fume Barrier:** Use localized extraction. Metal fumes are silent thieves of health.
+3. **The Fire Watch:** After every cut, we maintain a 30-minute fire watch. Embers are patient.
+4. **Tool Integrity:** A dull tool is a dangerous tool. Constant maintenance is mandatory.
+5. **Electrical Grounding:** When working with thousands of amps, the ground is your best friend.
+
+#### The Psychology of Safety
+Why does this matter to you, the client? Because a safe workshop is an organized workshop. An organized workshop produces gates that hang perfectly and tanks that never leak.
+
+#### Safety for the DIYer
+If you are reading this and planning to weld at home, remember:
+- **Never weld on a wet floor.**
+- **Always keep a fire extinguisher within arm's reach.**
+- **Invest in high-quality leather. Synthetic fabrics will melt into your skin.**
+
+Safety is the ultimate expression of respect for the craft. We protect our people so they can protect your structure.
+`,
+    category: "Safety Mastery",
+    date: "Nov 12, 2024",
+    image: "https://images.unsplash.com/photo-1581092921461-7d15cb8905ed?auto=format&fit=crop&q=80&w=800",
+    readTime: "8 min read",
+    tags: ["Safety", "Protocols", "PPE", "Workshop"]
+  },
+  {
+    id: 5,
+    title: "Bespoke Steel: The Art and Science of Custom Metal Fabrication",
+    excerpt: "Why custom-built always beats off-the-shelf. The engineering behind material selection and structural longevity.",
+    content: `
+### Bespoke Steel: Why Custom Matters
+
+In a world of mass production, "Adonai Custom" is a statement of intent. Custom fabrication isn't just about making something look pretty—it's about engineering a solution for a specific problem.
+
+#### The Custom Workflow:
+1. **Consultation:** We listen to the environment. Will the gate be near the salt air of the coast? Will the tank hold high-pressure fuel?
+2. **Material Science:** We don't just use "metal." we select the grade (A36, 304L, 316) that will resist corrosion for 30+ years.
+3. **Stress Testing:** Using CAD data, we ensure every structural joint can handle 2x its expected load.
+
+#### Longevity and Investment
+An off-the-shelf gate might last 5 years. An Adonai Custom gate is built for your children’s children. We use specialized coatings and precision-fitting to ensure that rust never finds a home.
+
+#### The Emotional Value of the Bespoke
+When you drive through a gate that was designed specifically for your home, or you operate a station built from tanks that were engineered for your soil, you feel a sense of permanence. Metal is eternal, and custom fabrication is how we give it a voice.
+`,
+    category: "Engineering",
+    date: "Nov 20, 2024",
+    image: "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=800",
+    readTime: "11 min read",
+    tags: ["Custom Fabrication", "Steel", "Bespoke", "Longevity"]
+  },
+  {
+    id: 6,
+    title: "The Fortress Gate: Modern Security Meets Architectural Art",
+    excerpt: "A gate should be more than a barrier; it should be an invitation and a shield. Discover the balance of aesthetic and security.",
+    content: `
+### The Fortress Gate: Security, Strength, and Style
+
+The gate is the first thing people see and the last thing a threat encounters. At Adonai Metal Works, we specialize in "Fortress Gates"—structures that look like art but feel like stone.
+
+#### Balancing the Aesthetic
+A heavy security gate doesn't have to look like a prison door.
+- **Ornamental Ironwork:** We use CNC to create patterns that match your home's architecture.
+- **Stainless Accents:** Adding 316-grade stainless steel provides a modern, high-end look that never fades.
+
+#### The Mechanics of Security
+- **Anti-Lift Hinges:** We engineer hinges that cannot be removed even if the pin is cut.
+- **Integrated Tech:** Smart locks and biometric scanners are built into the frame, not just attached to it.
+- **Structural Integrity:** Our gates use internal bracing to ensure they don't sag or warp over decades of use.
+
+#### The Feeling of Safety
+Coming home should feel like entering a sanctuary. The heavy, solid "thud" of an Adonai gate closing is the sound of peace of mind. It’s an investment in your family’s security and your property’s value.
+`,
+    category: "Architectural",
+    date: "Dec 05, 2024",
+    image: "https://images.unsplash.com/photo-1590013330462-0949390236a2?auto=format&fit=crop&q=80&w=800",
+    readTime: "6 min read",
+    tags: ["Gates", "Security", "Home", "Design"]
+  },
+  {
+    id: 7,
+    title: "The Industrial Vessel: Mastering Storage Tank Engineering",
+    excerpt: "From underground fuel reservoirs to surface chemical tanks, explore the metallurgy and safety that prevents catastrophic failure.",
+    content: `
+### The Industrial Vessel: Engineering for Zero Failure
+
+In the industrial sector, a storage tank is more than a container; it is a critical asset that holds the lifeblood of your business. Whether it’s fuel, chemicals, or water, the engineering of these vessels dictates the safety of your entire site.
+
+#### 1. Underground vs. Surface Storage
+- **Underground (UST):** These must resist the immense pressure of the earth and the corrosive nature of groundwater. We use specialized bitumen coatings and double-wall construction to ensure zero leakage.
+- **Surface (AST):** These face the relentless sun and humidity. Expansion joints and high-reflectivity coatings are essential to maintain internal temperature stability.
+
+#### 2. Metallurgy and Corrosion Resistance
+We select steel grades based on the chemical compatibility of the contents.
+- **Stainless 316L:** For food-grade or high-corrosive chemical storage.
+- **Carbon Steel with Epoxy Lining:** For fuel and heavy oils.
+
+#### 3. The Profitability of Quality
+A cheap tank is the most expensive mistake a business can make.
+- **Durability:** Our tanks are built to exceed international standards (API 650), ensuring a 30+ year service life.
+- **Maintenance:** Precision welding means fewer stress points, which translates to lower inspection costs over the decades.
+
+#### Safety and the Environment
+As leaders in Ghana's engineering sector, we prioritize environmental protection. Every tank we build is a shield between your product and the earth.
+`,
+    category: "Industrial",
+    date: "Dec 12, 2024",
+    image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=800",
+    readTime: "12 min read",
+    tags: ["Tanks", "Industrial", "Engineering", "Safety"]
+  },
+  {
+    id: 8,
+    title: "The Forge of Prosperity: The Business of Metal Fabrication",
+    excerpt: "Exploring the profitability, market demand, and economic impact of precision engineering in the modern world.",
+    content: `
+### The Forge of Prosperity: Why Metal Works?
+
+Metal fabrication is the backbone of modern civilization. From the smallest burglarproof bar to the largest fuel station canopy, the demand for precision engineering is constant and growing.
+
+#### 1. Why Metal Fabrication is Profitable
+- **High Entry Barrier:** The combination of specialized skill and expensive machinery (CNC, Plasma, MIG/TIG) creates a market where quality is rare and highly valued.
+- **Essential Service:** Industry, construction, and security cannot exist without metal works.
+- **Customization Markups:** Bespoke solutions command higher margins because they solve unique problems that mass-produced items cannot.
+
+#### 2. Scaling Your Engineering Business
+At Adonai Metal Works, we scaled from a local workshop to a regional leader by focusing on one thing: **Trust.**
+- **Quality as Marketing:** Every gate we install is a silent billboard for our precision.
+- **Partnerships:** Collaborating with architects and construction firms ensures a steady flow of high-value structural projects.
+
+#### 3. The Human Economic Impact
+We don't just build structures; we build careers. By training young Ghanaians in the art of precision engineering, we are forging a more prosperous future for our community.
+
+#### Is it for you?
+If you value hard work, sub-millimeter precision, and the satisfaction of building something that will outlast you, the world of metal fabrication is a forge of endless opportunity.
+`,
+    category: "Business",
+    date: "Dec 20, 2024",
+    image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=800",
+    readTime: "10 min read",
+    tags: ["Business", "Economics", "Growth", "Industry"]
+  }
+];
+
   const servicesData: Service[] = [
     {
       id: 1,
@@ -387,9 +646,11 @@ function App() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [activeCategory, setActiveCategory] = useState("View All");
   const [isJourneyModalOpen, setIsJourneyModalOpen] = useState(false);
+  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
+  const [quoteChoiceItem, setQuoteChoiceItem] = useState<Service | null>(null);
 
   // Navigation Items
-  const navItems = ["Home", "Services", "Portfolio", "About", "Contact"];
+  const navItems = ["Home", "Services", "Portfolio", "Articles", "About", "Contact"];
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -466,6 +727,7 @@ function App() {
           1. Be professional, technical, and helpful.
           2. Knowledge Base:
              - Services: Precision Morden Gates, Industrial Steel Structures, Industrial/Underground/Surface Storage Tanks, Fuel Station Canopies, Billboard Frames, Burglar Proof, Stainless Steel Railings.
+             - Keywords & Expertise: MIG/TIG Welding, Plasma Cutting, CNC Machining, Custom Metal Fabrication, Welding Safety, Structural Integrity.
              - Stats: 500+ projects delivered, 25+ global partners.
              - Founded: 2009.
              - Locations: Based in Ghana (Tema, Accra, Kumasi).
@@ -522,7 +784,7 @@ function App() {
             </button>
           ))}
           <button 
-            onClick={() => scrollToSection('Contact')}
+            onClick={() => setQuoteChoiceItem({ title: "Precision Engineering", category: "General" } as any)}
             className="bg-primary text-white px-6 py-3 rounded-[50px] no-underline font-bold transition-transform hover:scale-105 uppercase text-[0.6rem]"
           >
             Get a Quote
@@ -572,7 +834,10 @@ function App() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: navItems.length * 0.1 }}
-                onClick={() => scrollToSection('Contact')}
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setQuoteChoiceItem({ title: "Precision Engineering", category: "General" } as any);
+                }}
                 className="mt-8 bg-primary text-white px-12 py-5 rounded-full font-black uppercase text-xs tracking-widest shadow-[0_10px_30px_rgba(200,16,46,0.5)]"
               >
                 Get a Quote
@@ -822,6 +1087,33 @@ function App() {
 
       </section>
 
+      {/* --- Main Website Ad Space #2: Hero Bottom Banner (Google Ad Style) --- */}
+      <div className="bg-white py-12 border-b border-gray-100">
+        <div className="max-w-[1400px] mx-auto px-4 md:px-[5%]">
+          <div className="w-full bg-gray-50 rounded-[2rem] p-4 flex flex-col items-center justify-center border border-gray-200 shadow-inner">
+            <span className="text-[0.55rem] font-black uppercase tracking-[0.4em] text-[#999] mb-3">Community Sponsored Spotlight</span>
+            <div className="w-full min-h-[90px] md:min-h-[120px] bg-white rounded-2xl flex flex-col md:flex-row items-center justify-center gap-6 border border-dashed border-gray-300 p-6">
+              <div className="flex items-center gap-4 border-r border-gray-100 pr-6">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                  <Globe size={24} className="text-primary" />
+                </div>
+                <div>
+                   <p className="text-[0.7rem] font-black uppercase tracking-widest text-black leading-none mb-1">Regional Logistics</p>
+                   <p className="text-[0.6rem] text-[#888] font-medium leading-none">Industrial Hauling Partner</p>
+                </div>
+              </div>
+              <div className="text-center md:text-left flex-grow">
+                 <p className="text-[0.8rem] font-bold text-[#444] leading-relaxed italic">"Premium steel transport services across the West African sub-region."</p>
+              </div>
+              <button className="bg-black text-white px-8 py-3 rounded-full text-[0.6rem] font-black uppercase tracking-widest hover:bg-primary transition-all whitespace-nowrap">
+                Visit Partner
+              </button>
+            </div>
+            <span className="text-[0.45rem] font-bold text-[#CCC] uppercase tracking-widest mt-3">Google Ad Placement - Responsive Unit</span>
+          </div>
+        </div>
+      </div>
+
       <main>
 {/* --- Services Section (Missing Piece) --- */}
         <section id="services" className="py-24 md:py-32 bg-[#F8F8F8] relative overflow-hidden">
@@ -966,8 +1258,11 @@ function App() {
                             </p>
                             
                             <div className="mt-auto flex items-center justify-between pt-6 border-t border-gray-50">
-                               <button className="btn-primary py-4 px-10 text-[7.5px] uppercase tracking-[0.2em] font-black">
-                                 See More
+                               <button 
+                                 onClick={() => setQuoteChoiceItem(allImages.length > 0 ? (allImages[idx] as any) : item)}
+                                 className="btn-primary py-4 px-10 text-[7.5px] uppercase tracking-[0.2em] font-black"
+                               >
+                                 Get a Quote
                                </button>
                                <span className="text-[7.5px] font-black text-secondary/20 uppercase tracking-[0.3em]">
                                  {item.category.split(' ').pop()}
@@ -982,6 +1277,40 @@ function App() {
             </div>
           </div>
         </section>
+
+        {/* --- Main Website Ad Space #4: Mid-Page Content Break (Google Ad Style) --- */}
+        <div className="py-16 bg-[#F0F2F5]">
+          <div className="max-w-[1400px] mx-auto px-4 md:px-[5%]">
+             <div className="grid md:grid-cols-12 gap-8 items-center">
+                <div className="md:col-span-8">
+                   <div className="w-full bg-white rounded-[2.5rem] p-1 shadow-sm border border-gray-200">
+                      <div className="w-full min-h-[150px] md:min-h-[200px] rounded-[2.2rem] flex flex-col items-center justify-center relative overflow-hidden bg-gradient-to-br from-gray-50 to-white">
+                         <div className="absolute top-0 right-0 p-4">
+                            <span className="text-[0.5rem] font-black uppercase tracking-widest text-[#DDD]">Ad Choices</span>
+                         </div>
+                         <p className="text-[0.7rem] font-black uppercase tracking-[0.3em] text-[#bbb] mb-6">Industrial Finance Partner</p>
+                         <h4 className="text-2xl md:text-3xl font-bold text-black mb-4">Capital for Infrastructure.</h4>
+                         <p className="text-[0.9rem] text-[#666] font-medium mb-8">Flexible leasing for large-scale steel projects and fuel storage tanks.</p>
+                         <button className="bg-primary text-white px-10 py-4 rounded-full text-[0.7rem] font-black uppercase tracking-widest hover:bg-black transition-all">
+                            Check Eligibility
+                         </button>
+                      </div>
+                   </div>
+                </div>
+                <div className="md:col-span-4 h-full">
+                   <div className="h-full bg-black rounded-[2.5rem] p-10 flex flex-col justify-center items-center text-center border-4 border-primary/20">
+                      <Shield size={40} className="text-primary mb-6" />
+                      <h5 className="text-white text-lg font-bold mb-4 uppercase tracking-tighter italic">Adonai Certified</h5>
+                      <p className="text-[#888] text-[0.75rem] leading-relaxed mb-6">Become a preferred vendor for our regional expansion.</p>
+                      <button className="text-[0.6rem] font-black uppercase tracking-widest text-primary hover:text-white transition-colors">
+                        Partner Inquiries &rarr;
+                      </button>
+                   </div>
+                </div>
+             </div>
+             <p className="text-center mt-6 text-[0.45rem] font-bold text-[#AAA] uppercase tracking-[0.5em]">Google Adsense - Multi-Unit Grid</p>
+          </div>
+        </div>
 
         {/* --- About Us Section (Precision & Legacy) --- */}
         <section id="about" className="py-24 md:py-32 bg-white relative overflow-hidden">
@@ -1148,6 +1477,203 @@ function App() {
                     </div>
                   );
                 })}
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Strategic Ad Space #3: Global Presence Banner */}
+        <section className="py-20 bg-gray-50 border-y border-gray-100">
+          <div className="max-w-[1400px] mx-auto px-4 md:px-[5%]">
+            {/* Main Website Ad Space #1 (Google Ad Style) */}
+            <div className="w-full bg-gray-100 rounded-2xl p-2 mb-12 flex flex-col items-center justify-center border border-gray-200">
+              <span className="text-[0.5rem] font-black uppercase tracking-[0.3em] text-[#999] mb-1">Advertisement</span>
+              <div className="w-full h-24 md:h-32 bg-white rounded-xl flex items-center justify-center border border-dashed border-gray-300">
+                <span className="text-[0.7rem] font-bold text-gray-400 uppercase tracking-widest">Google Ad Slot - 728x90 / 970x250</span>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-4 gap-8 mb-16">
+               <div className="md:col-span-3 bg-white rounded-[3rem] p-8 md:p-16 flex flex-col lg:flex-row items-center justify-between gap-12 shadow-sm border border-gray-100 relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 w-[500px] h-full bg-primary/5 -skew-x-[30deg] translate-x-20 group-hover:translate-x-10 transition-transform duration-1000" />
+                  
+                  <div className="relative z-10 max-w-[700px]">
+                    <div className="flex items-center gap-4 text-primary text-[0.7rem] font-black uppercase tracking-[0.3em] mb-6">
+                      <div className="w-8 h-[1px] bg-primary" />
+                      Industrial Impact
+                    </div>
+                    <h2 className="text-[2rem] md:text-[3.5rem] font-bold text-black leading-[1.1] tracking-tight mb-8">
+                      From Tema to the world. <br />
+                      <span className="text-primary italic">Engineering the future.</span>
+                    </h2>
+                    <div className="flex flex-wrap gap-8">
+                      <div className="flex items-center gap-3">
+                        <div className="w-1.5 h-1.5 bg-primary rounded-full" />
+                        <span className="text-[0.9rem] font-bold text-black uppercase tracking-widest">500+ Projects</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <div className="w-1.5 h-1.5 bg-primary rounded-full" />
+                        <span className="text-[0.9rem] font-bold text-black uppercase tracking-widest">25+ Partners</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <div className="w-1.5 h-1.5 bg-primary rounded-full" />
+                        <span className="text-[0.9rem] font-bold text-black uppercase tracking-widest">ISO Standard</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="relative z-10 flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+                    <button 
+                      onClick={() => setQuoteChoiceItem({ title: "Industrial Partnership", category: "Global" } as any)}
+                      className="bg-black text-white px-10 py-6 rounded-full text-[0.8rem] font-black uppercase tracking-widest hover:bg-primary transition-all shadow-2xl flex items-center justify-center gap-3"
+                    >
+                      Become a Partner
+                      <ArrowRight size={16} />
+                    </button>
+                  </div>
+               </div>
+               
+               {/* Strategic Ad Space #8: Desktop Sidebar Ad Slot */}
+               <div className="hidden md:flex bg-black rounded-[3rem] p-10 flex-col justify-center items-center text-center relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 blur-[60px] rounded-full" />
+                  <span className="text-[0.6rem] font-black uppercase tracking-widest text-primary mb-4">Market Insight</span>
+                  <h4 className="text-white text-xl font-bold mb-6">Investment Opps in Ghana Steel</h4>
+                  <p className="text-[#888] text-[0.8rem] leading-relaxed mb-8">Discover how Adonai is leading the regional infrastructure boom.</p>
+                  <button className="w-full py-4 bg-white/10 hover:bg-white/20 text-white rounded-full text-[0.6rem] font-black uppercase tracking-widest transition-all">
+                    Download Report
+                  </button>
+               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* --- Engineering Insights / Articles Section --- */}
+        <section id="articles" className="py-24 md:py-40 bg-white overflow-hidden">
+          <div className="max-w-[1400px] mx-auto px-4 md:px-[5%] relative z-10">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-24 gap-8">
+              <div className="max-w-[800px]">
+                <motion.span 
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="text-[0.7rem] font-black uppercase tracking-[0.4em] text-primary mb-4 block"
+                >
+                  Insights & Mastery
+                </motion.span>
+                <motion.h2 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                  className="text-[2.5rem] md:text-[5.5rem] font-bold text-black leading-[0.9] tracking-tight mb-8"
+                >
+                  Engineering <br />
+                  <span className="text-primary italic">Intelligence.</span>
+                </motion.h2>
+                <motion.p 
+                   initial={{ opacity: 0, y: 20 }}
+                   whileInView={{ opacity: 1, y: 0 }}
+                   viewport={{ once: true }}
+                   transition={{ delay: 0.2 }}
+                   className="text-[1.1rem] md:text-[1.2rem] text-[#666] leading-relaxed font-medium"
+                >
+                  Discover the technical depth behind our metal works. From welding safety protocols to advanced CNC machining, we share the knowledge that defines industrial excellence and structural integrity.
+                </motion.p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {articles.map((article, i) => (
+                <motion.article 
+                  key={article.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="group cursor-pointer"
+                >
+                  <div className="aspect-[4/5] rounded-[2rem] overflow-hidden relative mb-8 border border-gray-100 shadow-sm bg-gray-50">
+                    <img 
+                      src={article.image} 
+                      alt={article.title} 
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute top-6 left-6 flex flex-wrap gap-2">
+                       <span className={`px-4 py-1.5 rounded-full text-[0.6rem] font-black uppercase tracking-widest backdrop-blur-md border ${
+                         article.category === 'Safety' 
+                         ? 'bg-primary/90 text-white border-primary/20 shadow-lg' 
+                         : 'bg-black/60 text-white border-white/20'
+                       }`}>
+                         {article.category}
+                       </span>
+                    </div>
+                  </div>
+                  
+                  <div className="mb-4 flex items-center gap-4 text-[0.7rem] font-black uppercase tracking-widest text-primary/40">
+                    <span>{article.date}</span>
+                    <span className="w-1 h-1 bg-primary/40 rounded-full" />
+                    <span>{article.readTime}</span>
+                  </div>
+                  
+                  <h3 className="text-2xl font-bold text-black leading-tight mb-4 group-hover:text-primary transition-colors">
+                    {article.title}
+                  </h3>
+                  
+                  <p className="text-[0.95rem] text-[#666] leading-relaxed mb-6 line-clamp-3 font-medium">
+                    {article.excerpt}
+                  </p>
+
+                  <button 
+                    onClick={() => setSelectedArticle(article)}
+                    className="flex items-center gap-2 text-[0.7rem] font-black uppercase tracking-widest text-primary hover:text-black mb-6 transition-colors group/btn"
+                  >
+                    Read Engineering Insight
+                    <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+                  </button>
+                  
+                  <div className="flex flex-wrap gap-2">
+                    {article.tags.map(tag => (
+                      <span key={tag} className="text-[0.65rem] font-bold text-primary/60 hover:text-primary transition-colors">#{tag}</span>
+                    ))}
+                  </div>
+                </motion.article>
+              ))}
+
+              {/* Strategic Ad Space #9: Sidebar Ad Slot (Google Ad Style) */}
+              <div className="lg:col-span-1 bg-gray-50 rounded-[2rem] p-6 flex flex-col items-center justify-center border border-gray-100 h-full">
+                <span className="text-[0.5rem] font-black uppercase tracking-[0.3em] text-[#bbb] mb-3">Sponsor Content</span>
+                <div className="w-full h-full min-h-[300px] bg-white rounded-xl flex items-center justify-center border border-dashed border-gray-200">
+                  <span className="text-[0.7rem] font-bold text-gray-300 uppercase tracking-widest text-center px-4">Google Ad Slot - 300x600 <br /><span className="text-[0.5rem] italic">(Direct Industry Partnership)</span></span>
+                </div>
+              </div>
+
+              {/* Strategic Ad #1: Grid Interrupter */}
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="lg:col-span-1 bg-black rounded-[2.5rem] p-10 flex flex-col justify-between border-4 border-primary/10 relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 blur-[60px] rounded-full -mr-10 -mt-10" />
+                <div className="relative z-10">
+                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-8 border border-primary/20">
+                    <Shield size={24} className="text-primary" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-white leading-tight mb-4">
+                    Ready to Start <br /> Your <span className="text-primary">Masterpiece?</span>
+                  </h3>
+                  <p className="text-[#888] text-[0.9rem] font-medium leading-relaxed mb-8">
+                    Don't settle for generic. Get a precision quote for your custom project today.
+                  </p>
+                </div>
+                <button 
+                  onClick={() => setQuoteChoiceItem({ title: "Custom Metal Project", category: "Featured" } as any)}
+                  className="w-full bg-primary text-white py-5 rounded-full text-[0.7rem] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-xl flex items-center justify-center gap-3"
+                >
+                  Get Instant Quote
+                  <ArrowRight size={16} />
+                </button>
               </motion.div>
             </div>
           </div>
@@ -1398,7 +1924,275 @@ function App() {
               </div>
             </div>
           </div>
+
+          {/* Strategic Ad Space #11: Main Site Footer (Google Ad Style) */}
+          <div className="max-w-[1400px] mx-auto mt-20 pt-20 border-t border-white/5 flex flex-col items-center">
+             <span className="text-[0.45rem] font-black uppercase tracking-[0.6em] text-white/10 mb-6">Partner Engineering Sponsors & Ad Units</span>
+             <div className="w-full h-24 bg-white/[0.02] rounded-[2rem] border border-dashed border-white/10 flex items-center justify-center relative group overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                <span className="text-[0.7rem] font-bold text-white/20 uppercase tracking-[0.3em] text-center px-8">Google Adsense - Leaderboard (970x90) / (728x90) Unit <br /><span className="text-[0.5rem] italic">(Strategic Site-Wide Monetization Space)</span></span>
+             </div>
+          </div>
         </footer>
+
+        {/* --- Social Proof & Final CTA --- */}
+        <section className="py-24 md:py-40 bg-white border-t border-gray-100">
+          <div className="max-w-[1400px] mx-auto px-4 md:px-[5%] text-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="max-w-[900px] mx-auto"
+            >
+              <h2 className="text-[2.5rem] md:text-[5.5rem] font-bold text-black leading-[0.9] mb-12 tracking-tight">
+                Ready to forge <br />
+                <span className="text-primary italic">something lasting?</span>
+              </h2>
+              <div className="flex flex-col sm:flex-row justify-center gap-6">
+                <button 
+                  onClick={() => {
+                    const contact = document.getElementById('contact');
+                    contact?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="flex items-center justify-center gap-4 bg-primary text-white px-12 py-6 rounded-full text-[0.8rem] font-black uppercase tracking-widest hover:bg-black transition-all duration-500 shadow-2xl"
+                >
+                  Start Your Project
+                  <Hammer size={18} />
+                </button>
+                <a 
+                  href={`https://wa.me/233502787990?text=${encodeURIComponent("Hello Adonai Metal Works, I am interested in starting a project and would like to consult with an engineer.")}`}
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="flex items-center justify-center gap-4 bg-black text-white px-12 py-6 rounded-full text-[0.8rem] font-black uppercase tracking-widest hover:bg-primary transition-all duration-500 shadow-2xl"
+                >
+                  Speak to Engineer
+                  <Phone size={18} />
+                </a>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* --- Quote Choice Modal --- */}
+        <AnimatePresence>
+          {quoteChoiceItem && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[120] flex items-center justify-center p-4 pointer-events-auto"
+            >
+              <div 
+                className="absolute inset-0 bg-black/80 backdrop-blur-md" 
+                onClick={() => setQuoteChoiceItem(null)}
+              />
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                className="bg-white w-full max-w-[500px] rounded-[2.5rem] relative z-10 shadow-2xl p-8 md:p-12 text-center max-h-[90vh] overflow-y-auto CustomScrollbar"
+              >
+                {/* Mobile Close Button */}
+                <button 
+                  onClick={() => setQuoteChoiceItem(null)}
+                  className="absolute top-6 right-6 w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-black hover:bg-primary hover:text-white transition-all md:hidden"
+                >
+                  <X size={20} />
+                </button>
+
+                <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-8">
+                  <Shield size={40} className="text-primary" />
+                </div>
+                
+                <h3 className="text-2xl md:text-3xl font-bold text-black mb-4">Get a Precision Quote</h3>
+                <p className="text-[#666] font-medium leading-relaxed mb-10">
+                  How would you prefer to receive a quote for your <span className="text-primary font-bold">{quoteChoiceItem.title}</span> project?
+                </p>
+
+                <div className="space-y-4">
+                  <a 
+                    href={`https://wa.me/233502787990?text=${encodeURIComponent(`Hello Adonai Metal Works, I am interested in a quote for "${quoteChoiceItem.title}" and would like to see more designs and discuss the project.`)}`}
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="flex items-center justify-center gap-4 w-full bg-[#25D366] text-white py-6 rounded-full text-[0.8rem] font-black uppercase tracking-widest hover:scale-[1.02] transition-transform shadow-lg"
+                  >
+                    Discuss via WhatsApp
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.432 5.631 1.433h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    </svg>
+                  </a>
+
+                  {/* Strategic Ad #5: Quote Funnel Ad */}
+                  <div className="bg-gray-50 border border-dashed border-gray-200 rounded-2xl p-4 py-6 flex flex-col items-center">
+                    <span className="text-[0.6rem] font-black uppercase tracking-widest text-[#999] mb-3">Professional Asset Finance Partner:</span>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
+                        <CheckCircle2 size={16} className="text-primary" />
+                      </div>
+                      <div className="text-left">
+                        <p className="text-[0.8rem] font-bold text-black uppercase tracking-widest">Build Now, Pay Later</p>
+                        <p className="text-[0.6rem] text-[#888] font-medium leading-none">Financing for Industrial Tanks & Gates</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button 
+                    onClick={() => {
+                      setQuoteChoiceItem(null);
+                      const contact = document.getElementById('contact');
+                      contact?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="flex items-center justify-center gap-4 w-full bg-black text-white py-6 rounded-full text-[0.8rem] font-black uppercase tracking-widest hover:bg-primary transition-all shadow-lg"
+                  >
+                    Email / Contact Form
+                    <ArrowRight size={18} />
+                  </button>
+                </div>
+
+                <button 
+                  onClick={() => setQuoteChoiceItem(null)}
+                  className="mt-8 text-[0.7rem] font-black uppercase tracking-widest text-primary/40 hover:text-primary transition-colors"
+                >
+                  Go Back
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* --- Global Article Modal --- */}
+        <AnimatePresence>
+          {selectedArticle && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10 pointer-events-auto"
+            >
+              <div 
+                className="absolute inset-0 bg-black/90 backdrop-blur-md" 
+                onClick={() => setSelectedArticle(null)}
+              />
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                className="bg-white w-full max-w-[900px] max-h-full overflow-y-auto rounded-[2.5rem] relative z-10 shadow-2xl CustomScrollbar"
+              >
+                <button 
+                  onClick={() => setSelectedArticle(null)}
+                  className="absolute top-8 right-8 z-20 bg-black text-white p-4 rounded-full hover:bg-primary transition-colors shadow-lg"
+                >
+                  <X size={24} />
+                </button>
+
+                <div className="relative aspect-video md:aspect-[16/7] overflow-hidden">
+                  <img 
+                    src={selectedArticle.image} 
+                    alt={selectedArticle.title} 
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60" />
+                  <div className="absolute bottom-10 left-10 right-10">
+                    <span className="px-4 py-1.5 rounded-full text-[0.6rem] font-black uppercase tracking-widest bg-primary text-white mb-4 inline-block">
+                      {selectedArticle.category}
+                    </span>
+                    <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight">
+                      {selectedArticle.title}
+                    </h2>
+                  </div>
+                </div>
+
+                <div className="p-8 md:p-16">
+                  {/* Strategic Ad Space #4: Top Sidebar Ad (Desktop Only) */}
+                  <div className="hidden lg:flex items-center justify-center bg-gray-50 border border-dashed border-gray-200 rounded-2xl p-4 mb-8">
+                    <span className="text-[0.6rem] font-black uppercase tracking-widest text-primary/40 mr-4">Sponsored Engineering Partner:</span>
+                    <div className="flex items-center gap-2">
+                       <Shield size={16} className="text-primary" />
+                       <span className="text-[0.7rem] font-bold text-black uppercase tracking-widest">Global Steel Logistics</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-6 mb-12 text-[0.7rem] font-black uppercase tracking-widest text-[#888] border-b border-gray-100 pb-8">
+                    <div className="flex items-center gap-2 text-primary">
+                      <Clock size={14} />
+                      {selectedArticle.readTime}
+                    </div>
+                    <div>{selectedArticle.date}</div>
+                    <div className="hidden md:block">Adonai Metal Works Engineering Division</div>
+                  </div>
+
+                  <div className="prose prose-lg max-w-none prose-headings:text-black prose-headings:font-bold prose-p:text-[#444] prose-p:leading-relaxed prose-strong:text-primary markdown-container font-medium">
+                    <Markdown>{selectedArticle.content}</Markdown>
+                  </div>
+
+                  {/* Strategic Ad #2: Inline Article Promotion */}
+                  <div className="my-16 p-10 bg-primary/5 rounded-[2rem] border border-primary/10 flex flex-col md:flex-row items-center gap-10">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 text-primary text-[0.7rem] font-bold uppercase tracking-widest mb-4">
+                        <Zap size={14} />
+                        Priority Engineering
+                      </div>
+                      <h4 className="text-2xl font-bold text-black mb-4">Transforming Insights into Infrastructure.</h4>
+                      <p className="text-[#666] leading-relaxed text-[0.95rem] font-medium">
+                        Inspired by this article? Let's discuss how we can apply these precision engineering principles to your next project. Our team is active in Tema, Accra, and Kumasi.
+                      </p>
+                    </div>
+                    <button 
+                      onClick={() => {
+                        const title = selectedArticle.title;
+                        setSelectedArticle(null);
+                        setQuoteChoiceItem({ title, category: "Article Engagement" } as any);
+                      }}
+                      className="whitespace-nowrap bg-black text-white px-10 py-6 rounded-full text-[0.75rem] font-black uppercase tracking-widest hover:bg-primary transition-all shadow-xl"
+                    >
+                      Apply This Engineering
+                    </button>
+                  </div>
+
+                  {/* Strategic Ad Space #7: Footer Advertisement in Articles */}
+                  <div className="mt-16 bg-gray-50 border-y border-gray-100 py-10 text-center">
+                    <span className="text-[0.6rem] font-black uppercase tracking-widest text-[#bbb] mb-4 block">International Metal Industry Sponsored Topic</span>
+                    <div className="flex items-center justify-center gap-10 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 transition-all cursor-pointer">
+                      <div className="flex items-center gap-2">
+                        <Globe size={16} />
+                        <span className="text-[0.8rem] font-bold uppercase tracking-tighter italic">GlobalSteel.ai</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Shield size={16} />
+                        <span className="text-[0.8rem] font-bold uppercase tracking-tighter italic">IronGuard Group</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-16 pt-12 border-t border-gray-100 flex flex-wrap gap-3">
+                    {selectedArticle.tags.map(tag => (
+                      <span key={tag} className="px-4 py-2 bg-gray-50 rounded-full text-[0.7rem] font-bold text-[#666]">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="mt-16 bg-gray-50 rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 border border-gray-100">
+                    <div>
+                      <h4 className="text-xl font-bold text-black mb-2">Need precision in your next project?</h4>
+                      <p className="text-[#666] text-[0.9rem] font-medium leading-relaxed">Our engineers are ready to discuss your custom fabrication needs.</p>
+                    </div>
+                    <a 
+                      href={`https://wa.me/233502787990?text=${encodeURIComponent(`Hello Adonai Metal Works, I just finished reading your article on "${selectedArticle.title}" and would like to consult an engineer about a project.`)}`}
+                      target="_blank" 
+                      rel="noreferrer"
+                      className="whitespace-nowrap bg-primary text-white px-10 py-5 rounded-full text-[0.7rem] font-black uppercase tracking-widest hover:bg-black transition-all text-center"
+                    >
+                      Consult an Engineer
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* --- Global Journey Modal --- */}
         <AnimatePresence>
@@ -1460,6 +2254,19 @@ function App() {
                             </div>
                           ))}
                         </div>
+
+                        {/* Strategic Ad #6: History Sidebar / Footer Ad */}
+                        <div className="mt-16 p-8 bg-white/5 border border-white/10 rounded-[2rem] relative overflow-hidden group">
+                           <div className="absolute top-0 right-0 w-24 h-24 bg-primary/20 blur-[50px] rounded-full -mr-10 -mt-10" />
+                           <div className="relative z-10 flex items-center justify-between">
+                              <div>
+                                 <span className="text-[0.6rem] font-black uppercase tracking-widest text-[#555] block mb-2">- Infrastructure Logistics Partner -</span>
+                                 <h5 className="text-[1.1rem] font-bold text-white mb-2">Heavy Hauling Solutions</h5>
+                                 <p className="text-[0.8rem] text-[#888] font-medium leading-relaxed">Moving the world's most complex structural iron across Africa.</p>
+                              </div>
+                              <ArrowRight className="text-primary group-hover:translate-x-2 transition-transform" />
+                           </div>
+                        </div>
                       </div>
 
                       <div className="relative">
@@ -1485,6 +2292,14 @@ function App() {
                           </div>
                         </div>
                       </div>
+                    </div>
+
+                    {/* Google Ad Slot #10: Modal Footer Ad */}
+                    <div className="mt-8 mb-12 flex flex-col items-center">
+                        <span className="text-[0.5rem] font-bold uppercase tracking-[0.4em] text-white/20 mb-4">Ad Slot - Industrial Supply Chain</span>
+                        <div className="w-full max-w-[468px] h-[60px] bg-white/5 rounded-xl border border-dashed border-white/10 flex items-center justify-center">
+                           <span className="text-[0.6rem] font-bold text-white/10 uppercase tracking-widest text-center px-4 italic">Google Adsense Unit <br /> (Industrial Partnership Area)</span>
+                        </div>
                     </div>
 
                     {/* Footer of Modal */}
