@@ -30,6 +30,7 @@ import {
   Truck,
   Send,
   User,
+  Handshake,
   Bot,
   Loader2,
   Maximize2,
@@ -38,6 +39,7 @@ import {
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, orderBy, query } from 'firebase/firestore';
 import firebaseConfig from '../firebase-applet-config.json';
+import { PartnerLogo } from './components/PartnerLogo';
 import { GoogleGenAI } from "@google/genai";
 
 // Initialize Gemini
@@ -648,6 +650,7 @@ function App() {
   const [isJourneyModalOpen, setIsJourneyModalOpen] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [quoteChoiceItem, setQuoteChoiceItem] = useState<Service | null>(null);
+  const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
 
   // Navigation Items
   const navItems = ["Home", "Services", "Portfolio", "Articles", "About", "Contact"];
@@ -1393,6 +1396,134 @@ function App() {
               </div>
             </div>
           </div>
+        </section>
+
+        {/* --- Leadership & Strategic Alliance (Option 1) --- */}
+        <section className="py-24 md:py-40 bg-white relative overflow-hidden group/leadership">
+           {/* Background Grid Pattern */}
+           <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+                style={{ backgroundImage: `radial-gradient(circle, #000 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
+           
+           <div className="max-w-[1400px] mx-auto px-4 md:px-[5%] relative z-10">
+              <div className="flex flex-col lg:flex-row gap-12 md:gap-20">
+                 
+                 {/* Founder/CEO Column */}
+                 <motion.div 
+                   initial={{ opacity: 0, x: -30 }}
+                   whileInView={{ opacity: 1, x: 0 }}
+                   viewport={{ once: true }}
+                   className="w-full lg:w-7/12"
+                 >
+                    <div className="flex items-center gap-4 text-primary text-[0.7rem] font-black uppercase tracking-[0.4em] mb-8">
+                       <User size={18} />
+                       Leadership Vision
+                    </div>
+                    
+                    <div className="flex flex-col md:flex-row gap-10 items-center md:items-start">
+                       <div className="w-full sm:w-[320px] aspect-[3/4] rounded-[2rem] overflow-hidden shadow-2xl relative shrink-0 group bg-gray-100">
+                          <img 
+                            src="/assets/leadership/boss.jpg" 
+                            alt="CEO Adonai Metal Works" 
+                            className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                            onError={(e) => {
+                              // Fallback if image not found yet
+                              (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800";
+                            }}
+                            referrerPolicy="no-referrer"
+                          />
+                          <div className="absolute bottom-6 left-6 right-6 p-6 bg-black/80 backdrop-blur-md rounded-2xl border border-white/10 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                             <p className="text-white font-black uppercase tracking-tight text-xl mb-1">Founder & CEO</p>
+                             <p className="text-primary text-xs font-bold uppercase tracking-widest leading-none">The Visionary Mind</p>
+                          </div>
+                       </div>
+                       
+                       <div className="flex-1 text-center md:text-left">
+                          <h3 className="text-4xl md:text-5xl font-bold text-black mb-8 leading-tight tracking-tighter">
+                             Building with <span className="text-primary italic">Precision</span> and Purpose.
+                          </h3>
+                          <div className="space-y-6 text-[#666] font-medium leading-relaxed text-lg">
+                             <p>
+                                At the heart of Adonai Metal Works is a commitment to unmatched structural integrity. We don't just build; we engineer solutions that secure the future of Ghanaian industry.
+                             </p>
+                             <div className="pt-6 border-t border-gray-100 space-y-4">
+                                <div className="flex items-center gap-4 justify-center md:justify-start">
+                                   <div className="w-2 h-2 bg-primary rounded-full" />
+                                   <span className="text-black font-black uppercase tracking-widest text-[0.75rem]">International ISO Standards</span>
+                                </div>
+                                <div className="flex items-center gap-4 justify-center md:justify-start">
+                                   <div className="w-2 h-2 bg-primary rounded-full group-hover/leadership:scale-150 transition-transform" />
+                                   <span className="text-black font-black uppercase tracking-widest text-[0.75rem]">Sustainable Heavy Engineering</span>
+                                </div>
+                             </div>
+                          </div>
+                       </div>
+                    </div>
+                 </motion.div>
+
+                 {/* Strategic Partner Column */}
+                 <motion.div 
+                   initial={{ opacity: 0, x: 30 }}
+                   whileInView={{ opacity: 1, x: 0 }}
+                   viewport={{ once: true }}
+                   className="w-full lg:w-5/12 bg-gray-50 rounded-[3rem] p-10 md:p-14 border border-gray-100 relative group"
+                 >
+                    <div className="absolute -top-4 -right-4 w-20 h-20 bg-black rounded-full flex items-center justify-center text-primary rotate-12 group-hover:rotate-0 transition-transform duration-500 z-20 shadow-xl border-4 border-white">
+                       <Handshake size={32} />
+                    </div>
+                    
+                    <div className="space-y-8 relative z-10">
+                       <div className="mb-8">
+                          <span className="text-[0.65rem] font-black uppercase tracking-[0.4em] text-primary block mb-4">International Synergy</span>
+                          <h4 className="text-3xl font-bold text-black mb-2 tracking-tighter">Strategic Alliance</h4>
+                          <div className="w-12 h-1 bg-primary rounded-full" />
+                       </div>
+                       
+                       <div className="bg-white rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100 group/partner-box">
+                          <div className="aspect-[16/10] bg-gray-50 relative flex items-center justify-center p-12">
+                             <img 
+                               src="/assets/partners/main/feature.jpg" 
+                               alt="Qingdao Xinguangzheng Corporate" 
+                               className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700"
+                               onLoad={(e) => (e.target as HTMLImageElement).classList.remove('opacity-0')}
+                               onError={(e) => (e.target as HTMLImageElement).classList.add('hidden')}
+                             />
+                             <div className="w-full h-full relative z-10 group-hover/partner-box:scale-110 transition-transform duration-700">
+                                <PartnerLogo />
+                             </div>
+                             <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/5 backdrop-blur-sm rounded-full">
+                                <span className="text-[0.5rem] font-black uppercase tracking-[0.2em] text-[#999]">Official Seal</span>
+                             </div>
+                          </div>
+                          
+                          <div className="p-8 md:p-10 bg-white">
+                             <h5 className="text-black font-black uppercase tracking-tight text-xl mb-3 leading-tight">
+                                Qingdao Xinguangzheng <br /> 
+                                <span className="text-primary italic">Steel Structure Co., Ltd.</span>
+                             </h5>
+                             <div className="flex items-center gap-3">
+                                <span className="flex h-2 w-2 relative">
+                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                                </span>
+                                <p className="text-[0.7rem] font-black text-[#555] uppercase tracking-[0.1em]">Global Strategic Partner</p>
+                             </div>
+                          </div>
+                       </div>
+
+                       <p className="text-[#666] font-medium leading-relaxed italic border-l-4 border-gray-200 pl-6 text-[0.95rem]">
+                          "Our partnership with Qingdao Xinguangzheng ensures that every weld and structure at Adonai meets the precision standards found in the world's most advanced industrial hubs."
+                       </p>
+
+                       <button 
+                         onClick={() => setIsPartnerModalOpen(true)}
+                         className="w-full py-6 bg-black text-white rounded-full text-[0.75rem] font-black uppercase tracking-widest hover:bg-primary transition-all duration-300 shadow-xl"
+                       >
+                          See More
+                       </button>
+                    </div>
+                 </motion.div>
+              </div>
+           </div>
         </section>
 
         {/* --- Testimonials Section (Cinematic Marquee Design) --- */}
@@ -2320,6 +2451,144 @@ function App() {
               </motion.div>
             </motion.div>
           )}
+        </AnimatePresence>
+
+        {/* --- Partner Details Modal (Qingdao Xinguangzheng) --- */}
+        <AnimatePresence>
+           {isPartnerModalOpen && (
+             <motion.div 
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               exit={{ opacity: 0 }}
+               className="fixed inset-0 z-[250] flex items-center justify-center p-4 md:p-6 overflow-y-auto bg-black/98 backdrop-blur-3xl"
+             >
+               <motion.div 
+                 initial={{ scale: 0.98, opacity: 0, y: 20 }}
+                 animate={{ scale: 1, opacity: 1, y: 0 }}
+                 exit={{ scale: 0.98, opacity: 0, y: 20 }}
+                 className="bg-white w-full max-w-[1100px] max-h-[90vh] rounded-[3rem] relative overflow-hidden shadow-2xl flex flex-col"
+               >
+                 {/* Modal Header */}
+                 <div className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-gray-50 px-8 py-5 flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                       <div className="w-10 h-10">
+                          <PartnerLogo />
+                       </div>
+                       <div>
+                          <h3 className="text-black font-black text-sm md:text-base uppercase tracking-tight leading-none">
+                             Qingdao Xinguangzheng <span className="text-primary italic">Steel Structure</span>
+                          </h3>
+                       </div>
+                    </div>
+                    
+                    <button 
+                      onClick={() => setIsPartnerModalOpen(false)}
+                      className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center text-black hover:bg-primary hover:text-white transition-all"
+                    >
+                      <X size={18} />
+                    </button>
+                 </div>
+
+                 {/* Modal Content */}
+                 <div className="flex-1 overflow-y-auto p-8 md:p-12 CustomScrollbar">
+                    <div className="max-w-4xl mx-auto">
+                       <div className="grid lg:grid-cols-2 gap-12 items-start mb-16">
+                          <div>
+                             <span className="text-[0.6rem] font-bold uppercase tracking-[0.4em] text-primary mb-4 block">International Engineering</span>
+                             <h2 className="text-3xl md:text-4xl font-black text-black leading-tight mb-6 tracking-tighter">
+                                Global Steel <br />
+                                <span className="text-gray-300 italic">Excellence.</span>
+                             </h2>
+                             <div className="space-y-4 text-[#666] font-medium leading-relaxed text-[0.95rem]">
+                                <p>
+                                   Qingdao Xinguangzheng Steel Structure Co., Ltd. is a high-tech, export-oriented international enterprise, integrating design, production, and high-precision installation.
+                                </p>
+                                <p>
+                                   With 25+ years of experience, they provide advanced structures including aircraft hangars and industrial workshops to over 80 countries.
+                                </p>
+                                <div className="pt-6 flex gap-4">
+                                   <div className="px-5 py-3 bg-gray-50 rounded-2xl border border-gray-100">
+                                      <p className="text-primary font-black text-lg mb-0.5">25+</p>
+                                      <p className="text-[0.5rem] font-bold uppercase tracking-widest text-[#AAA]">Years</p>
+                                   </div>
+                                   <div className="px-5 py-3 bg-gray-50 rounded-2xl border border-gray-100">
+                                      <p className="text-primary font-black text-lg mb-0.5">80+</p>
+                                      <p className="text-[0.5rem] font-bold uppercase tracking-widest text-[#AAA]">Countries</p>
+                                   </div>
+                                </div>
+                             </div>
+                          </div>
+                          
+                          <div className="relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-xl">
+                             <img 
+                               src="https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=800"
+                               alt="Industrial Facility"
+                               className="w-full h-full object-cover"
+                             />
+                             <div className="absolute inset-0 bg-primary/5 mix-blend-overlay" />
+                          </div>
+                       </div>
+
+                       {/* Horizontal Swiper Section */}
+                       <div className="mb-16">
+                          <div className="flex items-center justify-between mb-8">
+                             <div>
+                                <h4 className="text-xl font-black text-black uppercase tracking-tight">Portfolio Gallery</h4>
+                                <p className="text-[0.6rem] text-[#888] font-bold uppercase tracking-widest mt-1">Swipe left or right to explore</p>
+                             </div>
+                             <div className="flex gap-2">
+                                <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-black hover:border-black transition-all">
+                                   <ArrowRight className="rotate-180" size={14} />
+                                </button>
+                                <button className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-black hover:border-black transition-all">
+                                   <ArrowRight size={14} />
+                                </button>
+                             </div>
+                          </div>
+                          
+                          <div 
+                            className="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory CustomScrollbarNoWidth"
+                            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                          >
+                             {[1, 2, 3, 4, 5, 6].map((i) => (
+                               <div key={i} className="min-w-[280px] md:min-w-[350px] aspect-[4/5] bg-gray-50 rounded-[2.5rem] overflow-hidden relative shrink-0 snap-center border border-gray-100 group">
+                                  <div className="absolute inset-0 flex items-center justify-center text-[#ddd] font-black uppercase tracking-widest text-[0.6rem] text-center p-8 border border-dashed border-gray-200 m-4 rounded-[2rem]">
+                                     Portfolio Page #{i} <br /> (Pending Upload)
+                                  </div>
+                                  <img 
+                                    src={`/assets/partners/portfolio/image_${i}.jpg`} 
+                                    alt={`Portfolio Image ${i}`}
+                                    className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700"
+                                    onLoad={(e) => (e.target as HTMLImageElement).classList.remove('opacity-0')}
+                                    onError={(e) => (e.target as HTMLImageElement).classList.add('hidden')}
+                                  />
+                               </div>
+                             ))}
+                          </div>
+                       </div>
+
+                       <div className="bg-gray-50 rounded-[2.5rem] p-10 flex flex-col md:flex-row items-center justify-between gap-8 border border-gray-100">
+                          <div className="max-w-md text-center md:text-left">
+                             <h4 className="text-black text-xl font-black italic mb-2 uppercase">Adonai Strategic Synergy</h4>
+                             <p className="text-[#888] font-medium text-sm leading-relaxed">
+                                Bridging global engineering capacity with West African industrial demand. Contact our team to learn more about this partnership.
+                             </p>
+                          </div>
+                          <button 
+                            onClick={() => {
+                              setIsPartnerModalOpen(false);
+                              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                            }}
+                            className="bg-black text-white px-10 py-4 rounded-full text-[0.65rem] font-black uppercase tracking-widest hover:bg-primary transition-all shadow-lg whitespace-nowrap"
+                          >
+                             Partner Inquiries
+                          </button>
+                       </div>
+                    </div>
+                 </div>
+               </motion.div>
+             </motion.div>
+           )}
         </AnimatePresence>
 
       </main>
